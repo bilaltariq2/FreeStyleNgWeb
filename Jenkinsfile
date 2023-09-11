@@ -21,6 +21,7 @@ pipeline{
 		stage('Deploying new container'){
 			steps{
 				script{
+					def buildNumber = env.BUILD_NUMBER
 					sh "docker run -d --name freestylenginx -p 8082:80 freenginx:${buildNumber}"
 				}
 			}
