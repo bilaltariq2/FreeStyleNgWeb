@@ -11,10 +11,17 @@ pipeline{
 				}
 			}
 		}
+		stage('Checkpoint for approval'){
+			steps{
+				script{
+					input message: 'Do you want remove previously deployed container & deploy a new container?', ok: 'Allow'
+				}
+			}
+		}
 		stage('Removing previous running container'){
 			steps{
 				script{
-					sh"docker rm -f freestylenginx"
+					sh "docker rm -f freestylenginx"
 				}
 			}
 		}
