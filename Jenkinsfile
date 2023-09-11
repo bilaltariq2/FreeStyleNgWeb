@@ -33,5 +33,12 @@ pipeline{
 				}
 			}
 		}
+		stage{
+			steps{
+				script{
+					emailext body: 'New deployment has been made.', subject: 'New deployment for Project "Learning pipeline Jenkins"', to: 'b4bylal@gmail.com'
+				}
+			}
+		}
 	}
 }
