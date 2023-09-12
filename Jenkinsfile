@@ -33,11 +33,9 @@ pipeline{
 				}
 			}
 		}
-		stage('Email confirmation of new deployment'){
-			steps{
-				script{
-					emailext body: 'New deployment has been made.', subject: 'New deployment for Project "Learning pipeline Jenkins"', to: 'b4bylal@gmail.com'
-				}
+		post{
+			success{
+				emailext attachLog: true, body: 'Build has been completed.', subject: 'Build Success', to: 'b4bylal@gmail.com'ps
 			}
 		}
 	}
