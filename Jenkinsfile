@@ -26,19 +26,34 @@ pipeline{
 				}
 			}
 		}
-		stage('SSH to remote server and deployment'){
+		stage('Checkpoint for approval for New Deployment'){
+			steps{
+				script{
+					input message: 'Are you sure to deploy a new container on Remote Server?', ok: 'Allow'
+				}
+			}
+		}
+		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
 					def remote = [:]
 					remote.name = "ubuntu"
-                    remote.host = "10.24.2.193"
+                    remote.host = "10.24.2.170"
                     remote.allowAnyHosts = true
-					node{
-						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
-							remote.user = ubuntu
-                            remote.identityFile = keyfile
-						}
+					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
+						remote.user = ubuntu
+                        remote.identityFile = keyfile
+						sshCommand remote: remote, command: 'mkdir test'
 					}
+				}
+			}
+		}
+		stage('Cleaning Image on Local Server'){
+			steps{
+				script{
+					def fullBranchName= env.GIT_BRANCH
+					def branchName = fullBranchName.replaceAll('origin/', '')
+					//sh "docker rmi $registry:${branchName}-${buildNumber}" 
 				}
 			}
 		}
