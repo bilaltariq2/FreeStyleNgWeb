@@ -33,29 +33,5 @@ pipeline{
 				}
 			}
 		}
-		stage('SSH to remote server and New Deployment'){
-			steps{
-				script{
-					def remote = [:]
-					remote.name = "ubuntu"
-                    remote.host = "10.24.2.170"
-                    remote.allowAnyHosts = true
-					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
-					remote.user = ubuntu
-                    remote.identityFile = keyfile
-					sshCommand remote: remote, command: "sudo mkdir /home/ubuntu/test"
-					}
-				}
-			}
-		}
-		stage('Cleaning Image on Local Server'){
-			steps{
-				script{
-					def fullBranchName= env.GIT_BRANCH
-					def branchName = fullBranchName.replaceAll('origin/', '')
-					//sh "docker rmi $registry:${branchName}-${buildNumber}" 
-				}
-			}
-		}
 	}
 }
