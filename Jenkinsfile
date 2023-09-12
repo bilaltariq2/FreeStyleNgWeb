@@ -26,5 +26,21 @@ pipeline{
 				}
 			}
 		}
+		stage('SSH to remote server and deployment'){
+			steps{
+				script{
+					def remote = [:]
+					remote.name = "ubuntu"
+                    remote.host = "10.24.2.193"
+                    remote.allowAnyHosts = true
+					node{
+						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
+							remote.user = ubuntu
+                            remote.identityFile = keyfile
+						}
+					}
+				}
+			}
+		}
 	}
 }
