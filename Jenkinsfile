@@ -12,7 +12,6 @@ pipeline{
 				script{
 					def buildNumber = env.BUILD_NUMBER
 					def branchName = env.GIT_BRANCH
-					echo ${branchName}
 					dockerImage = docker.build registry + ":${branchName}-${buildNumber}"
 				}
 			}
@@ -21,7 +20,7 @@ pipeline{
 			steps{
 				script{
 					withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-    				dockerImage.push()
+    					dockerImage.push()
 				}
 				}		
 			}
