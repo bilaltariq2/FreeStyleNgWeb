@@ -18,8 +18,10 @@ pipeline{
 		}
 		stage('Pusing Docker Image to Docker Hub'){
 			steps{
-				withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+				script{
+					withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
     				dockerImage.push()
+				}
 				}		
 			}
 		}
