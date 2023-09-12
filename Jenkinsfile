@@ -2,7 +2,8 @@ pipeline{
 	agent any
 
 	environment{
-		registry="btariq/jenkins-learning"	
+		registry="btariq/jenkins-learning"
+		dockerImage = ''
 	}
 
 	stages{
@@ -17,7 +18,7 @@ pipeline{
 		}
 		stage('Pusing Docker Image to Docker Hub'){
 			steps{
-				withDockerRegistry(credentialsId: 'dockerhub_credentials') {
+				withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
     				dockerImage.push()
 				}		
 			}
