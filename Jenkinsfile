@@ -11,7 +11,7 @@ pipeline{
 			steps{
 				script{
 					def buildNumber = env.BUILD_NUMBER
-					def branchName = env.GIT_LOCAL_BRANCH
+					def branchName = env.GIT_BRANCH
 					echo branchName
 					//dockerImage = docker.build registry + ":${branchName}-${buildNumber}"
 				}
