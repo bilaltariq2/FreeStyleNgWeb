@@ -43,7 +43,7 @@ pipeline{
 					node{
 						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: '', usernameVariable: 'ubuntu')]) {
 							remote.user = ubuntu
-							remote.identityFile = keyfile
+							// remote.identityFile = 
 							stage('I am in SSH'){
 								sshCommand remote: remote, command: "ls" 
 							}
