@@ -41,7 +41,7 @@ pipeline{
                     remote.host = "10.24.2.170"
                     remote.allowAnyHosts = true
 					node{
-						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
+						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: '', usernameVariable: 'ubuntu')]) {
 							remote.user = ubuntu
 							remote.identityFile = keyfile
 							stage('I am in SSH'){
