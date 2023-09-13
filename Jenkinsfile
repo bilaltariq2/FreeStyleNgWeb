@@ -42,11 +42,11 @@ pipeline{
                     remote.host = "10.24.2.170"
                     remote.allowAnyHosts = true
 					node{
-						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'ubuntu')]) {
-						remote.user = 'ubuntu'
-						remote.identityFile = SSH_PRIVATE_KEY
+						withCredentials([usernamePassword(credentialsId: 'sshkey_jenkins', passwordVariable: 'password', usernameVariable: 'ubuntu')]) {
+						remote.user = ubuntu
+						remote.password = password
 						stage('I am in SSH') {
-							sshCommand remote: remote, command: 'ls'
+							sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
 							}
 						}
 					}
