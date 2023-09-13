@@ -4,6 +4,7 @@ pipeline{
 	environment{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
+		SSH_KEY_PATH = ''
 	}
 
 	stages{
@@ -42,11 +43,12 @@ pipeline{
                     remote.host = "10.24.2.170"
                     remote.allowAnyHosts = true
 					node{
-						withCredentials([usernamePassword(credentialsId: 'sshkey_jenkins', passwordVariable: 'password', usernameVariable: 'ubuntu')]) {
-						remote.user = ubuntu
-						remote.password = password
+						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'ubuntu')]) {
+						remote.user = 'ubuntu'
+						remote.identityFile = SSH_KEY_PATH
 						stage('I am in SSH') {
-							sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
+							echo "SSH key file is located at: $SSH_KEY_PATH"
+							sshCommand remote: remote, command: 'ls'
 							}
 						}
 					}
