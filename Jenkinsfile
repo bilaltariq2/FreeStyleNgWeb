@@ -45,7 +45,7 @@ pipeline{
 							remote.user = ubuntu
 							remote.identityFile = keyfile
 							stage('I am in SSH'){
-								sshCommand remote: remote, command: "mkdir /home/ubuntu/test" 
+								sshCommand remote: remote, command: "ls" 
 							}
 						}
 					}
