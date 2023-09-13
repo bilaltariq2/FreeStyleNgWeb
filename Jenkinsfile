@@ -36,19 +36,20 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					def remote = [:]
-					remote.name = "ubuntu"
-                    remote.host = "10.24.2.170"
-                    remote.allowAnyHosts = true
-					node{
-						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: '', usernameVariable: 'ubuntu')]) {
-							remote.user = ubuntu
-							// remote.identityFile = 
-							stage('I am in SSH'){
-								sshCommand remote: remote, command: "ls" 
-							}
-						}
-					}
+					sh "whoami"
+					// def remote = [:]
+					// remote.name = "ubuntu"
+                    // remote.host = "10.24.2.170"
+                    // remote.allowAnyHosts = true
+					// node{
+					// 	withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: '', usernameVariable: 'ubuntu')]) {
+					// 		remote.user = ubuntu
+					// 		remote.identityFile = file
+					// 		stage('I am in SSH'){
+					// 			sshCommand remote: remote, command: "ls" 
+					// 		}
+					// 	}
+					// }
 				}
 			}
 		}
