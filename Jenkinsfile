@@ -40,11 +40,13 @@ pipeline{
 					remote.name = "ubuntu"
                     remote.host = "10.24.2.170"
                     remote.allowAnyHosts = true
-					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
-					remote.user = ubuntu
-                    remote.identityFile = keyfile
-					stage('I am in SSH'){
-						sshCommand remote: remote, command: "mkdir /home/ubuntu/test" 
+					node{
+						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
+							remote.user = ubuntu
+							remote.identityFile = keyfile
+							stage('I am in SSH'){
+								sshCommand remote: remote, command: "mkdir /home/ubuntu/test" 
+							}
 						}
 					}
 				}
