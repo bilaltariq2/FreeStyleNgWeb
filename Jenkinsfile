@@ -48,7 +48,7 @@ pipeline{
 						remote.identityFile = SSH_KEY_PATH
 						stage('I am in SSH') {
 							echo "SSH key file is located at: $SSH_KEY_PATH"
-							sshCommand remote: remote, command: 'ls'
+							sshCommand remote: remote, command: 'docker login'
 							}
 						}
 					}
