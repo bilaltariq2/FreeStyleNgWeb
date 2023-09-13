@@ -43,9 +43,7 @@ pipeline{
 					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
 					remote.user = ubuntu
                     remote.identityFile = keyfile
-					stage{
-						sshCommand remote: remote, command: "mkdir /home/ubuntu/test" 
-					}
+					sshCommand remote: remote, command: "sudo mkdir -p /home/ubuntu/test" 
 					}
 				}
 			}
