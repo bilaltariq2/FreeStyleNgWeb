@@ -37,19 +37,19 @@ pipeline{
 			steps{
 				script{
 					sh "whoami"
-					// def remote = [:]
-					// remote.name = "ubuntu"
-                    // remote.host = "10.24.2.170"
-                    // remote.allowAnyHosts = true
-					// node{
-					// 	withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: '', usernameVariable: 'ubuntu')]) {
-					// 		remote.user = ubuntu
-					// 		remote.identityFile = file
-					// 		stage('I am in SSH'){
-					// 			sshCommand remote: remote, command: "ls" 
-					// 		}
-					// 	}
-					// }
+					def remote = [:]
+					remote.name = "ubuntu"
+                    remote.host = "10.24.2.170"
+                    remote.allowAnyHosts = true
+					node{
+						withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'SSH_PRIVATE_KEY', usernameVariable: 'ubuntu')]) {
+						remote.user = 'ubuntu'
+						remote.identityFile = SSH_PRIVATE_KEY
+						stage('I am in SSH') {
+							sshCommand remote: remote, command: 'ls'
+							}
+						}
+					}
 				}
 			}
 		}
