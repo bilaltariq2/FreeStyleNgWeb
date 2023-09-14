@@ -66,7 +66,7 @@ pipeline{
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami
 							ls
-							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${buildNumber}
+							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
 							'''
 							}	
 						}
