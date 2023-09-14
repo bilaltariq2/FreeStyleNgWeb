@@ -47,7 +47,6 @@ pipeline{
 						remote.user = userName
 						remote.identityFile = keyFile
 						stage('I am in SSH') {
-							echo "SSH key file is located at: $SSH_KEY_PATH"
 							sshCommand remote: remote, command: 'ls'
 							}
 						}
