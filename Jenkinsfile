@@ -37,7 +37,7 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyFile', passphraseVariable: 'passVar', usernameVariable: 'userName')]) {
+					withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'keyFile', passphraseVariable: 'passVar', usernameVariable: 'userName')])  {
 						def remote = [name:'ip-10-24-2-170', host:'10.24.2.170', user:userName, identityFile:keyFile, allowAnyHosts:true]
 						sshCommand remote: remote, command: 'ls'
 					}
