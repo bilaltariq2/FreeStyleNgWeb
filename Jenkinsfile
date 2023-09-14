@@ -42,10 +42,10 @@ pipeline{
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
 							sshagent(['new_sshkey']) { 
 								echo "branch name is $branchName"
-								sh '''
+								sh """
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								docker run -d --name remotenginx -p 8085:80 $registry":${branchNewName}-${BUILD_NUMBER}"
-								'''
+								docker run -d --name remotenginx -p 8085:80 $registry:$branchName-${BUILD_NUMBER}
+								"""
 							}	
 						}
 					}
