@@ -75,7 +75,7 @@ pipeline{
 				script{
 					def fullBranchName= env.GIT_BRANCH
 					def branchName = fullBranchName.replaceAll('origin/', '')
-					//sh "docker rmi $registry:${branchName}-${buildNumber}" 
+					sh "docker rmi $registry:${branchName}-${BUILD_NUMBER}" 
 				}
 			}
 		}
