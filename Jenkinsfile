@@ -64,7 +64,7 @@ pipeline{
 							def branchName = fullBranchName.replaceAll('origin/', '')
 							sshagent(['new_sshkey']) {
 							sh '''
-							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} ls
+							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
 							ls
 							
 							'''
