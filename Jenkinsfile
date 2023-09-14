@@ -57,11 +57,13 @@ pipeline{
 			steps{
 				script{
 					node{
+						withCredentials([usernameColonPassword(credentialsId: 'dockerhub_credentials', variable: 'dockercreds')]) {
+							echo ${dockercreds}
+							def pass= ${dockercreds.split(':')[1]}
+							echo ${pass}
+						}
 						sshagent(['new_sshkey']) {
 							sh 'ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami \
-							withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-								
-								}
 							'
 						}
 					}
