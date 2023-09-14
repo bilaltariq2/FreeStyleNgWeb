@@ -57,11 +57,12 @@ pipeline{
 			steps{
 				script{
 					node{
-						withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
+						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
+						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
 							sshagent(['new_sshkey']) {
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami
-							docker login -u ${dockerHubUser} -p ${dockerHubPass}
+							
 							'''
 							}	
 						}
