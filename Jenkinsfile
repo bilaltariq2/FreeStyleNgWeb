@@ -37,21 +37,21 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					sh "ssh ubuntu@10.24.2.170 ls"
-					// def remote = [:]
-					// remote.name = "ubuntu"
-                    // remote.host = "10.24.2.170"
-                    // remote.allowAnyHosts = true
-					// node{
-					// 	withCredentials([sshUserPrivateKey(credentialsId: '', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'ubuntu')]) {
-					// 	remote.user = 'ubuntu'
-					// 	remote.identityFile = SSH_KEY_PATH
-					// 	stage('I am in SSH') {
-					// 		echo "SSH key file is located at: $SSH_KEY_PATH"
-					// 		sshCommand remote: remote, command: 'ls'
-					// 		}
-					// 	}
-					// }
+					//sh "ssh ubuntu@10.24.2.170 ls"
+					def remote = [:]
+					remote.name = "ubuntu"
+                    remote.host = "10.24.2.170"
+                    remote.allowAnyHosts = true
+					node{
+						withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'SSH_KEY_PATH', usernameVariable: 'jenkins')]) {
+						remote.user = 'ubuntu'
+						remote.identityFile = SSH_KEY_PATH
+						stage('I am in SSH') {
+							echo "SSH key file is located at: $SSH_KEY_PATH"
+							sshCommand remote: remote, command: 'ls'
+							}
+						}
+					}
 				}
 			}
 		}
