@@ -5,18 +5,15 @@ pipeline{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
 		SSH_KEY_PATH = ''
-		buildNumber = 'env.BUILD_NUMBER'
-		//fullBranchName= env.GIT_BRANCH
-		branchName = 'env.GIT_BRANCH'.replaceAll('origin/', '')
 	}
 
 	stages{
 		stage('Building Docker Image'){
 			steps{
 				script{
-					//def buildNumber = env.BUILD_NUMBER
-					//def fullBranchName= env.GIT_BRANCH
-					//def branchName = fullBranchName.replaceAll('origin/', '')
+					def buildNumber = env.BUILD_NUMBER
+					def fullBranchName= env.GIT_BRANCH
+					def branchName = fullBranchName.replaceAll('origin/', '')
 					dockerImage = docker.build registry + ":${branchName}-${buildNumber}"
 				}
 			}
@@ -60,11 +57,15 @@ pipeline{
 			steps{
 				script{
 					node{
+						def buildNumber = env.BUILD_NUMBER
+						def fullBranchName= env.GIT_BRANCH
+						def branchName = fullBranchName.replaceAll('origin/', '')
 						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
 							sshagent(['new_sshkey']) {
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami
+							ls
 							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${buildNumber}
 							'''
 							}	
