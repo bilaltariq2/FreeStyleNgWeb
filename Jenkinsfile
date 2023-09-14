@@ -59,14 +59,14 @@ pipeline{
 					node{
 						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+							sshagent(['new_sshkey']) {
 							def buildNumber = env.BUILD_NUMBER
 							def fullBranchName= env.GIT_BRANCH
 							def branchName = fullBranchName.replaceAll('origin/', '')
-							sshagent(['new_sshkey']) {
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
 							ls; \
-							docker run -d --name remotenginx -p 8082:80 $registry:$branchName-${BUILD_NUMBER}
+							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
 							'''
 							}	
 						}
