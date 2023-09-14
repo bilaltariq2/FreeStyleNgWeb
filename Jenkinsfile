@@ -64,10 +64,11 @@ pipeline{
 							def branchName = fullBranchName.replaceAll('origin/', '')
 							sshagent(['new_sshkey']) {
 							sh '''
-							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami
+							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP}
 							ls
-							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
+							
 							'''
+							//docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
 							}	
 						}
 					}
