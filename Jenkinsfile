@@ -14,7 +14,7 @@ pipeline{
 				script{
 					fullBranchName= env.GIT_BRANCH
 					branchName = fullBranchName.replaceAll('origin/', '')
-					dockerImage = docker.build registry +":"branchName+"-${BUILD_NUMBER}"
+					dockerImage = docker.build registry +":${branchName}-${BUILD_NUMBER}"
 				}
 			}
 		}
