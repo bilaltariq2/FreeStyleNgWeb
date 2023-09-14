@@ -34,20 +34,31 @@ pipeline{
 				}
 			}
 		}
+		// stage('SSH to remote server and New Deployment'){
+		// 	steps{
+		// 		script{
+		// 			def remote = [:]
+		// 			remote.name = "ubuntu"
+		// 			remote.host = "10.24.2.170"
+		// 			remote.allowAnyHosts = true
+		// 			node{
+		// 				 withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+		// 					remote.user = userName
+		// 					remote.identityFile = identity
+		// 					stage("SSH Steps Rocks!") {
+		// 						sshCommand remote: remote, command: 'ls'
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		// 	}
+		// }
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					def remote = [:]
-					remote.name = "ubuntu"
-					remote.host = "10.24.2.170"
-					remote.allowAnyHosts = true
 					node{
-						 withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-							remote.user = userName
-							remote.identityFile = identity
-							stage("SSH Steps Rocks!") {
-								sshCommand remote: remote, command: 'ls'
-							}
+						sshagent(['new_sshkey']) {
+							sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 10.24.2.170 whoami'
 						}
 					}
 				}
