@@ -38,7 +38,7 @@ pipeline{
 			steps{
 				script{
 					def remote = [:]
-					remote.name = "ip-10-24-2-170"
+					remote.name = "ubuntu"
 					remote.host = "10.24.2.170"
 					remote.allowAnyHosts = true
 					node{
