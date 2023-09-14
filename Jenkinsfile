@@ -38,7 +38,7 @@ pipeline{
 			steps{
 				script{
 					withCredentials([sshUserPrivateKey(credentialsId: 'sshkey_jenkins', keyFileVariable: 'keyFile', passphraseVariable: 'passVar', usernameVariable: 'userName')]) {
-						def remote = [name:'ubuntu', host:'10.24.2.170', user:userName, identityFile:keyFile, allowAnyHosts:true]
+						def remote = [name:'ip-10-24-2-170', host:'10.24.2.170', user:userName, identityFile:keyFile, allowAnyHosts:true]
 						sshCommand remote: remote, command: 'ls'
 					}
 				}
