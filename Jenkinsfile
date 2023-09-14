@@ -65,7 +65,7 @@ pipeline{
 							sshagent(['new_sshkey']) {
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-							ls \
+							ls; \
 							docker run -d --name remotenginx -p 8082:80 $registry:$branchName-${BUILD_NUMBER}
 							'''
 							}	
