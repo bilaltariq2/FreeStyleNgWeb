@@ -46,7 +46,7 @@ pipeline{
 							remote.user = userName
 							remote.identityFile = identity
 							stage("SSH Steps Rocks!") {
-								sshCommand remote: remote, command: "ssh -v -i $identity ubuntu@10.24.2.170 'ls'"
+								sshCommand remote: remote, command: "ssh -v -i $identity $userName@10.24.2.15 ls"
 								//sshCommand remote: remote, command: 'ls'
 							}
 						}
