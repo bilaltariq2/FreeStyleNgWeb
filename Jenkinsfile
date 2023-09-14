@@ -57,11 +57,11 @@ pipeline{
 			steps{
 				script{
 					node{
-						def buildNumber = env.BUILD_NUMBER
-						def fullBranchName= env.GIT_BRANCH
-						def branchName = fullBranchName.replaceAll('origin/', '')
 						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+							def buildNumber = env.BUILD_NUMBER
+							def fullBranchName= env.GIT_BRANCH
+							def branchName = fullBranchName.replaceAll('origin/', '')
 							sshagent(['new_sshkey']) {
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami
