@@ -5,8 +5,6 @@ pipeline{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
 		SSH_KEY_PATH = ''
-		fullBranchName= env.GIT_BRANCH
-		branchName = fullBranchName.replaceAll('origin/', '')
 	}
 
 	stages{
@@ -68,7 +66,7 @@ pipeline{
 							sh '''
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
 							ls; \
-							docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
+							docker run -d --name remotenginx -p 8082:80 $registry:${GIT_BRANCH.split(':')[1]}-${BUILD_NUMBER}
 							'''
 							}	
 						}
