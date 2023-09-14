@@ -14,7 +14,7 @@ pipeline{
 				script{
 					fullBranchName= env.GIT_BRANCH
 					branchName = fullBranchName.replaceAll('origin/', '')
-					dockerImage = docker.build registry + ":${branchName}-${BUILD_NUMBER}"
+					dockerImage = docker.build registry +":"branchName+"-${BUILD_NUMBER}"
 				}
 			}
 		}
@@ -44,7 +44,7 @@ pipeline{
 								echo "branch name is $branchName"
 								sh '''
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								docker run -d --name remotenginx -p 8082:80 $registry":$registry-${BUILD_NUMBER}"
+								docker run -d --name remotenginx -p 8082:80 $registry":${branchNewName}-${BUILD_NUMBER}"
 								'''
 							}	
 						}
