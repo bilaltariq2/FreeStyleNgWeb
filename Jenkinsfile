@@ -41,7 +41,7 @@ pipeline{
 						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
 							sshagent(['new_sshkey']) { 
-								echo "top branch:" ${branchName}
+								echo "top branch: $branchName"
 								def branch = branchName
 								sh '''
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
