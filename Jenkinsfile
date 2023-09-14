@@ -38,7 +38,7 @@ pipeline{
 			steps{
 				script{
 					def remote = [:]
-					remote.name = "ubuntu"
+					remote.name = "ip-10-24-2-170"
 					remote.host = "10.24.2.170"
 					remote.allowAnyHosts = true
 					node{
@@ -46,7 +46,8 @@ pipeline{
 							remote.user = userName
 							remote.identityFile = identity
 							stage("SSH Steps Rocks!") {
-								sshCommand remote: remote, command: 'ls'
+								sshCommand remote: remote, command: "ssh -v -i $identity ubuntu@10.24.2.170 'ls'"
+								//sshCommand remote: remote, command: 'ls'
 							}
 						}
 					}
