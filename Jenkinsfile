@@ -58,7 +58,8 @@ pipeline{
 				script{
 					node{
 						sshagent(['new_sshkey']) {
-							sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 10.24.2.170 whoami'
+							sh 'ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami \
+							'
 						}
 					}
 				}
