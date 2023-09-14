@@ -59,6 +59,9 @@ pipeline{
 					node{
 						sshagent(['new_sshkey']) {
 							sh 'ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} whoami \
+							withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+								
+								}
 							'
 						}
 					}
