@@ -5,7 +5,7 @@ pipeline{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
 		SSH_KEY_PATH = ''
-		fullBranchNames= ''+env.GIT_BRANCH
+		branchName = ''
 	}
 
 	stages{
@@ -60,11 +60,10 @@ pipeline{
 					node{
 						//withCredentials([usernamePassword(credentialsId: 'dockerhub_credentials', passwordVariable: 'dockerHubPass', usernameVariable: 'dockerHubUser')]) {
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-							sshagent(['new_sshkey']) {
-								echo ${fullBranchNames} 
+							sshagent(['new_sshkey']) { 
 								sh '''
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								docker run -d --name remotenginx -p 8082:80 $registry:main-${BUILD_NUMBER}
+								docker run -d --name remotenginx -p 8082:80 $registry:${branchName}-${BUILD_NUMBER}
 								'''
 							}	
 						}
@@ -75,8 +74,6 @@ pipeline{
 		stage('Cleaning Image on Local Server'){
 			steps{
 				script{
-					def fullBranchName= env.GIT_BRANCH //origin/main
-					def branchName = fullBranchName.replaceAll('origin/', '')
 					sh "docker rmi $registry:${branchName}-${BUILD_NUMBER}" 
 				}
 			}
