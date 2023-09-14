@@ -37,9 +37,18 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'keyFile', passphraseVariable: 'passVar', usernameVariable: 'userName')])  {
-						def remote = [name:'ubuntu', host:'10.24.2.170', user:userName, identityFile:keyFile, allowAnyHosts:true]
-						sshCommand remote: remote, command: 'ls'
+					def remote = [:]
+					remote.name = "ubuntu"
+					remote.host = "10.24.2.170"
+					remote.allowAnyHosts = true
+					node{
+						 withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+							remote.user = userName
+							remote.identityFile = identity
+							stage("SSH Steps Rocks!") {
+								sshCommand remote: remote, command: 'ls'
+							}
+						}
 					}
 				}
 			}
