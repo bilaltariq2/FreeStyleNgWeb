@@ -4,7 +4,7 @@ pipeline{
 	environment{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
-		SSH_KEY_PATH = ''
+		fullBranchName= ''
 		branchName = ''
 	}
 
@@ -12,10 +12,9 @@ pipeline{
 		stage('Building Docker Image'){
 			steps{
 				script{
-					def buildNumber = env.BUILD_NUMBER
-					def fullBranchName= env.GIT_BRANCH
+					fullBranchName= env.GIT_BRANCH
 					branchName = fullBranchName.replaceAll('origin/', '')
-					dockerImage = docker.build registry + ":${branchName}-${buildNumber}"
+					dockerImage = docker.build registry + ":${branchName}-${BUILD_NUMBER}"
 				}
 			}
 		}
@@ -35,25 +34,6 @@ pipeline{
 				}
 			}
 		}
-		// stage('SSH to remote server and New Deployment'){
-		// 	steps{
-		// 		script{
-		// 			def remote = [:]
-		// 			remote.name = "ubuntu"
-		// 			remote.host = "10.24.2.170"
-		// 			remote.allowAnyHosts = true
-		// 			node{
-		// 				 withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-		// 					remote.user = userName
-		// 					remote.identityFile = identity
-		// 					stage("SSH Steps Rocks!") {
-		// 						sshCommand remote: remote, command: 'ls'
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		// 	}
-		// }
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
