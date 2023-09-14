@@ -5,6 +5,8 @@ pipeline{
 		registry="btariq/jenkins-learning"
 		dockerImage = ''
 		SSH_KEY_PATH = ''
+		fullBranchName= env.GIT_BRANCH
+		branchName = fullBranchName.replaceAll('origin/', '')
 	}
 
 	stages{
