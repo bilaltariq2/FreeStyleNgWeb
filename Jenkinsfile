@@ -19,7 +19,7 @@ pipeline {
                 script {
                     echo "Yayyy I am building now."
                     fullBranchName= env.GIT_BRANCH
-					branchName = fullBranchName.split(':')[1]
+					branchName = fullBranchName.split('/')[1]
                     echo "Branch Name is ${branchName}"
                 }
             }
