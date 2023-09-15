@@ -6,10 +6,10 @@ pipeline {
             steps{
                 script{
                     def lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    if (lastCommitMessage.contains('do-build')) {
-                        echo"Build trigger keyword(do-build) found in commit message. Starting the build and other stages..."
-                    }else{
+                    if (lastCommitMessage.contains('No-build')) {
                         error("Aborting the new build due to No build trigger.")
+                    }else{
+                        echo"Build trigger keyword(do-build) found in commit message. Starting the build and other stages..."                        
                     }
                 }
             }
