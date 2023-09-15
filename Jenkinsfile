@@ -17,7 +17,7 @@ pipeline {
         stage('Building Docker Image') {
             steps {
                 script {
-                    echo "Yayyy I am building now."
+                    echo "I am building now."
 					branchName = env.GIT_BRANCH.split('/')[1]
                     echo "Branch Name is ${branchName}"
                 }
