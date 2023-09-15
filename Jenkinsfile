@@ -11,7 +11,14 @@ pipeline {
                     }else{
                         error("Aborting the new build")
                     }
-
+                }
+            }
+        }
+        stage{
+            when { expression { lastCommitMessage.contains('#build-trigger') } }
+            steps('Building Docker Image'){
+                script{
+                    echo"Yayyy I am building now."
                 }
             }
         }
