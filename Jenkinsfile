@@ -6,10 +6,11 @@ pipeline {
             steps{
                 script{
                     def lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    echo "Message: ${lastCommitMessage}"
-                    echo "GIT_COMMIT ${GIT_COMMIT}"
-                    echo "GIT_PREVIOUS_COMMIT ${GIT_PREVIOUS_COMMIT}"
-                    echo "GIT_PREVIOUS_SUCCESSFUL_COMMIT ${GIT_PREVIOUS_SUCCESSFUL_COMMIT}"
+                    if (lastCommitMessage.contains('#build-trigger')) {
+                        echo"Build trigger keyword/comment found in commit message. Starting the build and other stages..."
+                    }else{
+                        error("Aborting the new build")
+                    }
 
                 }
             }
