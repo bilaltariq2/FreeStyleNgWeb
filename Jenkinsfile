@@ -69,4 +69,12 @@ pipeline{
 			}
 		}
 	}
+	post{
+		success{
+			emailext attachLog: true, body: 'Build has been completed.', subject: 'Build Success', to: 'b4bylal@gmail.com'
+		}
+		failure{
+			emailext attachLog: true, body: 'Build has been failed.', subject: 'Build Failed', to: 'b4bylal@gmail.com'
+		}
+	}
 }
