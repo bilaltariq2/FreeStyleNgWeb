@@ -9,7 +9,7 @@ pipeline {
                     if (lastCommitMessage.contains('#build-trigger')) {
                         echo"Build trigger keyword/comment found in commit message. Starting the build and other stages..."
                     }else{
-                        error("Aborting the new build")
+                        error("Aborting the new build due to No build trigger.")
                     }
                 }
             }
