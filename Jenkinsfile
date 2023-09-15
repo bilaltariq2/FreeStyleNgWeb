@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     echo "Yayyy I am building now."
-					branchName = ${GIT_BRANCH.split('/')[1]}
+					branchName = ${GIT_BRANCH}.split('/')[1]
                     echo "Branch Name is ${branchName}"
                 }
             }
