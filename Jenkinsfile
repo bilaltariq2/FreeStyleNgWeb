@@ -14,11 +14,13 @@ pipeline {
                 }
             }
         }
-        stage{
-            when { expression { lastCommitMessage.contains('#build-trigger') } }
-            steps('Building Docker Image'){
-                script{
-                    echo"Yayyy I am building now."
+        stage('Building Docker Image') {
+            when {
+                expression { lastCommitMessage.contains('#build-trigger') }
+            }
+            steps {
+                script {
+                    echo "Yayyy I am building now."
                 }
             }
         }
