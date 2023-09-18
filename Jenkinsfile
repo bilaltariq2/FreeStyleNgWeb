@@ -31,13 +31,7 @@ pipeline{
 		stage('Configure Amazon AWS CLI'){
 			steps{
 				script{
-					sh """
-						aws configure sso \
-						--start-url ${AWS_SSO_URL} \
-						--sso-region ${AWS_SSO_REGION} \
-						--profile btariq \
-						--no-browser
-					"""
+					sh "aws configure sso --start-url ${AWS_SSO_URL} --sso-region ${AWS_SSO_REGION} --profile btariq --no-browser"
 				}
 			}
 		}
