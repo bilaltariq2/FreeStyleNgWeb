@@ -36,7 +36,7 @@ pipeline{
                     sh "aws configure set sso_region ${AWS_SSO_REGION}"
                     sh "aws configure set sso_profile ${AWS_SSO_PROFILE}"
 
-					sh "aws sso login"
+					sh "aws sso login --no-browser"
 
 					def ssoOutput = sh(script: 'aws configure list', returnStdout: true).trim()
                     def ssoCredentials = ssoOutput.split("\n").collectEntries { line ->
