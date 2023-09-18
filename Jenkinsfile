@@ -31,7 +31,7 @@ pipeline{
 		stage('Configure Amazon AWS CLI'){
 			steps{
 				script{
-					sh "aws configure sso"
+					sh "aws --version"
 				}
 			}
 		}
