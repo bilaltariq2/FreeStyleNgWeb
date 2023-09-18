@@ -5,6 +5,7 @@ pipeline{
 		repoName="rashid/test"
 		dockerImage = ''
 		branchName = ''
+		AWS_SSO_PROFILE = "btariq"
 	}
 
 	stages{
@@ -31,7 +32,9 @@ pipeline{
 		stage('Configure Amazon AWS CLI'){
 			steps{
 				script{
-					sh "aws --version"
+					sh "aws configure set sso_start_url ${AWS_SSO_START_URL}"
+                    sh "aws configure set sso_region ${AWS_SSO_REGION}"
+                    sh "aws configure set sso_profile ${AWS_SSO_PROFILE}"
 				}
 			}
 		}
