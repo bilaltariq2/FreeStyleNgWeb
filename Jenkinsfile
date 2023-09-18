@@ -2,6 +2,7 @@ pipeline{
 	agent any
 	environment{
 		registry="055638961298.dkr.ecr.us-east-1.amazonaws.com/"
+		055638961298.dkr.ecr.us-east-1.amazonaws.com
 		repoName="rashid/test"
 		dockerImage = ''
 		branchName = ''
@@ -32,7 +33,7 @@ pipeline{
 			steps{
 				script{
 					docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
-                            dockerImage.push()
+                        dockerImage.push()
                     }
 				}
 			}
