@@ -37,6 +37,12 @@ pipeline{
                     sh "aws configure set sso_profile ${AWS_SSO_PROFILE}"
 
 					sh "aws sso login"
+
+					def ssoOutput = sh(script: 'aws configure list', returnStdout: true).trim()
+                    def ssoCredentials = ssoOutput.split("\n").collectEntries { line ->
+                        def parts = line.split(" = ")
+                        [(parts[0]): parts[1]]
+                    }
 				}
 			}
 		}
