@@ -1,7 +1,9 @@
 pipeline{
 	agent any
 	environment{
-
+		registry="btariq/jenkins-learning"
+		dockerImage = ''
+		branchName = ''
 	}
 
 	stages{
