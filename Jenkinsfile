@@ -23,7 +23,7 @@ pipeline{
 			steps{
 				script{
 					withDockerRegistry(credentialsId: 'ecr:us-east-1:aws_credentials') {
-						sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055638961298.dkr.ecr.us-east-1.amazonaws.com"
+						aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055638961298.dkr.ecr.us-east-1.amazonaws.com
 					}
 				}
 			}
