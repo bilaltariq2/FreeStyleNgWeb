@@ -35,6 +35,8 @@ pipeline{
 					sh "aws configure set sso_start_url ${AWS_SSO_URL}"
                     sh "aws configure set sso_region ${AWS_SSO_REGION}"
                     sh "aws configure set sso_profile ${AWS_SSO_PROFILE}"
+
+					sh "aws sso login"
 				}
 			}
 		}
