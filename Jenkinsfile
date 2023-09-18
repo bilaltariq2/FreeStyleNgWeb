@@ -19,11 +19,10 @@ pipeline{
                 }
             }
         }
-		stage('Building Docker Image'){
+		stage('Logging in to AWS'){
 			steps{
 				script{
-					branchName = env.GIT_BRANCH.split('/')[1]
-					dockerImage = docker.build registry +":${branchName}-${BUILD_NUMBER}"
+					sh (aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055638961298.dkr.ecr.us-east-1.amazonaws.com)
 				}
 			}
 		}
