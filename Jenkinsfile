@@ -1,7 +1,8 @@
 pipeline{
 	agent any
 	environment{
-		registry="btariq/jenkins-learning"
+		registry="055638961298.dkr.ecr.us-east-1.amazonaws.com"
+		repoName="rashid/test"
 		dockerImage = ''
 		branchName = ''
 	}
@@ -19,12 +20,11 @@ pipeline{
                 }
             }
         }
-		stage('Logging in to AWS'){
+		stage('Building Docker Image'){
 			steps{
 				script{
-					withDockerRegistry(credentialsId: 'ecr:us-east-1:aws_credentials') {
-						aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055638961298.dkr.ecr.us-east-1.amazonaws.com
-					}
+					branchName = env.GIT_BRANCH.split('/')[1]
+					dockerImage = docker.build registry +"${repoName}:${branchName}-${BUILD_NUMBER}"
 				}
 			}
 		}
