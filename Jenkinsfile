@@ -28,12 +28,14 @@ pipeline{
 				}
 			}
 		}
-		stage('Pushing Docker Image to Amazon ECR'){
+		stage('Configure Amazon AWS CLI'){
 			steps{
 				script{
-					docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
-                        dockerImage.push()
-                    }		
+					aws configure sso \
+					--start-url ${AWS_SSO_URL} \
+					--sso-region ${AWS_SSO_REGION} \
+					--profile btariq \
+					--no-browser
 				}
 			}
 		}
