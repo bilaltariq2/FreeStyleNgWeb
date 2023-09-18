@@ -1,7 +1,7 @@
 pipeline{
 	agent any
 	environment{
-		registry="055638961298.dkr.ecr.us-east-1.amazonaws.com"
+		registry="055638961298.dkr.ecr.us-east-1.amazonaws.com/"
 		repoName="rashid/test"
 		dockerImage = ''
 		branchName = ''
@@ -25,6 +25,15 @@ pipeline{
 				script{
 					branchName = env.GIT_BRANCH.split('/')[1]
 					dockerImage = docker.build registry +"${repoName}:${branchName}-${BUILD_NUMBER}"
+				}
+			}
+		}
+		stage('Pushing Docker Image to Amazon ECR'){
+			steps{
+				script{
+					docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:Stella-AWS') {
+                        dockerImage.push()
+                    }		
 				}
 			}
 		}
