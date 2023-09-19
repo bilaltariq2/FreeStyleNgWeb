@@ -45,7 +45,7 @@ pipeline{
 							sshagent(['new_sshkey']) { 
 								sh """
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								ls
+								btariq/btariq-deploy.sh $registry $repoName
 								"""
 							}	
 						}
