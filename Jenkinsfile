@@ -12,7 +12,7 @@ pipeline{
             steps{
                 script{
                     def lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    if (lastCommitMessage.contains('No')) {
+                    if (lastCommitMessage.contains('No-build')) {
                         error("Aborting the new build due to No Build Message.")
                     }else{
                         echo"Starting the build and other stages..."                        
@@ -50,6 +50,7 @@ pipeline{
                             remote.identityFile = keyfile
                             stage("SSH Steps Rocks!") {
                                 // AWS Credentials
+								sshCommand remote: remote, command:"ls"
                                 withCredentials([[
                                     $class: 'AmazonWebServicesCredentialsBinding',
                                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
@@ -57,6 +58,7 @@ pipeline{
                                     credentialsId: 'aws_credentials'
                                 ]]) {
                                     def imageName = "${registry}rashid/test:hassan-${BUILD_NUMBER}"
+									sshCommand remote: remote, command: "aws ecr list-images --repository-name rashid/test"
                                     //sshCommand remote: remote, command: "./deploy-hassan.sh AWS $imageName $registry"
                                     //sshCommand remote: remote, command: "aws sts get-caller-identity"
                                 }
