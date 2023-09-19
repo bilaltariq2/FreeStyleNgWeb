@@ -20,20 +20,36 @@ pipeline{
                 }
             }
         }
-		stage('Building Docker Image'){
+		// stage('Building Docker Image'){
+		// 	steps{
+		// 		script{
+		// 			branchName = env.GIT_BRANCH.split('/')[1]
+		// 			dockerImage = docker.build registry +"${repoName}:${branchName}-${BUILD_NUMBER}"
+		// 		}
+		// 	}
+		// }
+		// stage('Configure Amazon AWS CLI & Image push to ECR'){
+		// 	steps{
+		// 		script{
+		// 			docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
+        //                 dockerImage.push()
+        //             }
+		// 		}
+		// 	}
+		// }
+		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					branchName = env.GIT_BRANCH.split('/')[1]
-					dockerImage = docker.build registry +"${repoName}:${branchName}-${BUILD_NUMBER}"
-				}
-			}
-		}
-		stage('Configure Amazon AWS CLI'){
-			steps{
-				script{
-					docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
-                        dockerImage.push()
-                    }
+					node{
+						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+							sshagent(['new_sshkey']) { 
+								sh """
+								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
+								ls
+								"""
+							}	
+						}
+					}
 				}
 			}
 		}
