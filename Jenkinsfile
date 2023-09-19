@@ -42,12 +42,14 @@ pipeline{
 				script{
 					node{
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-							sshagent(['new_sshkey']) { 
-								sh """
-								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								btariq/btariq-deploy.sh $registry $repoName
-								"""
-							}	
+							def imageName = "${registry}${repoName}:${branchName}-${BUILD_NUMBER}"
+							echo $imageName
+							// sshagent(['new_sshkey']) { 
+							// 	sh """
+							// 	ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
+							// 	btariq/btariq-deploy.sh $registry $repoName
+							// 	"""
+							// }	
 						}
 					}
 				}
