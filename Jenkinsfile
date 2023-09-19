@@ -42,7 +42,7 @@ pipeline{
 				script{
 					node{
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-							def imageName = "${registry}${repoName}:${branchName}-${BUILD_NUMBER}"
+							def imageName = "${registry}${repoName}:$branchName-${BUILD_NUMBER}"
 							echo "$imageName"
 							// sshagent(['new_sshkey']) { 
 							// 	sh """
