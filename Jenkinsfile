@@ -15,7 +15,8 @@ pipeline{
                     if (lastCommitMessage.contains('No-build')) {
                         error("Aborting the new build due to No Build Message.")
                     }else{
-                        echo"Starting the build and other stages..."                        
+                        echo"Starting the build and other stages..."     
+						branchName = env.GIT_BRANCH.split('/')[1]                   
                     }
                 }
             }
@@ -42,7 +43,7 @@ pipeline{
 				script{
 					node{
 						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-							def imageName = ${registry}${repoName}:${branchName}-${BUILD_NUMBER}
+							def imageName = "${registry}${repoName}:${branchName}-${BUILD_NUMBER}"
 							echo "$imageName"
 							// sshagent(['new_sshkey']) { 
 							// 	sh """
