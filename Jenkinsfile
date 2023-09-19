@@ -45,9 +45,12 @@ pipeline{
 							sshagent(['new_sshkey']) { 
 								sh """
 								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
-                        
-                    			}
+								withCredentials([[
+                                    $class: 'AmazonWebServicesCredentialsBinding',
+                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
+                                    credentialsId: 'aws_credentials'
+                                ]]) {}
 								"""
 							}	
 						}
