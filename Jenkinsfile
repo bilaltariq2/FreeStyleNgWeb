@@ -40,31 +40,16 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					def remote = [:]
-                    remote.name = "ubuntu"
-                    remote.host = "10.24.2.170"
-                    remote.allowAnyHosts = true
-                    node {
-                        withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
-                            remote.user = ubuntu
-                            remote.identityFile = keyfile
-                            stage("SSH Steps Rocks!") {
-                                // AWS Credentials
-								sshCommand remote: remote, command:"ls"
-                                withCredentials([[
-                                    $class: 'AmazonWebServicesCredentialsBinding',
-                                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
-                                    credentialsId: 'aws_credentials'
-                                ]]) {
-                                    def imageName = "${registry}rashid/test:hassan-${BUILD_NUMBER}"
-									sshCommand remote: remote, command: "aws ecr list-images --repository-name rashid/test"
-                                    //sshCommand remote: remote, command: "./deploy-hassan.sh AWS $imageName $registry"
-                                    //sshCommand remote: remote, command: "aws sts get-caller-identity"
-                                }
-                            }
-                        }
-                    }
+					node{
+						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
+							sshagent(['new_sshkey']) { 
+								sh """
+								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
+								ls
+								"""
+							}	
+						}
+					}
 				}
 			}
 		}
