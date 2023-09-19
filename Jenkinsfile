@@ -12,7 +12,7 @@ pipeline{
             steps{
                 script{
                     def lastCommitMessage = sh(returnStdout: true, script: 'git log -1 --pretty=%B').trim()
-                    if (lastCommitMessage.contains('No-build')) {
+                    if (lastCommitMessage.contains('No')) {
                         error("Aborting the new build due to No Build Message.")
                     }else{
                         echo"Starting the build and other stages..."                        
@@ -40,21 +40,29 @@ pipeline{
 		stage('SSH to remote server and New Deployment'){
 			steps{
 				script{
-					node{
-						withDockerRegistry(credentialsId: 'dockerhub_credentials', url: '') {
-							sshagent(['new_sshkey']) { 
-								sh """
-								ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
-								withCredentials([[
+					def remote = [:]
+                    remote.name = "ubuntu"
+                    remote.host = "10.24.2.170"
+                    remote.allowAnyHosts = true
+                    node {
+                        withCredentials([sshUserPrivateKey(credentialsId: 'new_sshkey', keyFileVariable: 'keyfile', usernameVariable: 'ubuntu')]) {
+                            remote.user = ubuntu
+                            remote.identityFile = keyfile
+                            stage("SSH Steps Rocks!") {
+                                // AWS Credentials
+                                withCredentials([[
                                     $class: 'AmazonWebServicesCredentialsBinding',
                                     accessKeyVariable: 'AWS_ACCESS_KEY_ID',
                                     secretKeyVariable: 'AWS_SECRET_ACCESS_KEY',
                                     credentialsId: 'aws_credentials'
-                                ]]) {}
-								"""
-							}	
-						}
-					}
+                                ]]) {
+                                    def imageName = "${registry}rashid/test:hassan-${BUILD_NUMBER}"
+                                    //sshCommand remote: remote, command: "./deploy-hassan.sh AWS $imageName $registry"
+                                    //sshCommand remote: remote, command: "aws sts get-caller-identity"
+                                }
+                            }
+                        }
+                    }
 				}
 			}
 		}
