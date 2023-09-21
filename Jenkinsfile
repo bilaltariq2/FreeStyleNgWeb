@@ -42,14 +42,14 @@ pipeline{
 		stage('Fetching Image Digest & Generating PDF Report'){
 			steps{
 				script{
+					scanStatus = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageScanStatus.status' --output text", returnStdout: true).trim()
+					while(scanStatus == 'IN_PROGRESS'){
+						echo"AWS ECR Image Scan is in Process. Waiting to complete..."
+						sleep(3)
+						scanStatus = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageScanStatus.status' --output text", returnStdout: true).trim()	
+					}
 					imageDigest = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text", returnStdout: true).trim()
 					sh "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest} >> scanData.txt"
-				}
-			}
-		}
-		stage('Generating PDF Report'){
-			steps{
-				script{
 					sh "python3 main.py"
 					sh "bash email.sh"
 				}
