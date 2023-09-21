@@ -68,7 +68,7 @@ pipeline{
 		// 			sh "docker rmi ${registry}${repoName}:${imageTag}" 
 		// 		}
 		// 	}
-		// }
+		//}
 	}
 	// post{
 	// 	success{
