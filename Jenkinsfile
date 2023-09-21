@@ -23,7 +23,8 @@ pipeline{
 		stage('Building Docker Image'){
 			steps{
 				script{
-					imageTag = env.GIT_BRANCH.split('/')[1]+"-${BUILD_NUMBER}"
+					def branchName = env.GIT_BRANCH.split('/')[1]
+					imageTag = "${branchName}-${BUILD_NUMBER}"
 					dockerImage = docker.build registry +${imageTag}
 				}
 			}
