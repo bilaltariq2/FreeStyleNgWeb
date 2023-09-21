@@ -44,6 +44,12 @@ pipeline{
 				script{
 					imageDigest = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text", returnStdout: true).trim()
 					sh "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest} >> scanData.txt"
+				}
+			}
+		}
+		stage('Generating PDF Report'){
+			steps{
+				script{
 					sh "python3 main.py"
 					sh "bash email.sh"
 				}
