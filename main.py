@@ -11,8 +11,8 @@ import textwrap
 
 
 # Read JSON data from the text file
-#with open("scan.txt", "r", encoding="utf-8") as readScanTextFile:
-#    scannedData = readScanTextFile.read()
+with open("scanData.txt", "r", encoding="utf-8") as readScanTextFile:
+    scannedData = readScanTextFile.read()
 
 # Parse the JSON data
 data = json.loads(scannedData)
