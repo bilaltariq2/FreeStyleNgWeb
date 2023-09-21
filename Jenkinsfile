@@ -52,6 +52,7 @@ pipeline{
 					sh "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest} >> scanData.txt"
 					sh "python3 main.py"
 					sh "bash email.sh"
+					sh "rm scanData.txt"
 				}
 			}
 		}
@@ -74,7 +75,6 @@ pipeline{
 			steps{
 				script{
 					sh "docker rmi ${registry}${repoName}:${imageTag}" 
-					sh "rm scanData.txt"
 				}
 			}
 		}
