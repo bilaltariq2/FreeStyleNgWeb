@@ -27,9 +27,9 @@ pipeline{
 			steps{
 				script{
 					imageDigest = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text", returnStdout: true).trim()
-					scanFinding = sh(script: "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest}", returnStdout: true).trim()
-					echo "Image Digest is ${imageDigest}"
-					echo "Scan Findings ${scanFinding}"
+					scannedData = sh(script: "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest}", returnStdout: true).trim()
+					def pythonScript = "python main.py '${scannedData}'"
+					sh "pythonScript"
 				}
 			}
 		}
