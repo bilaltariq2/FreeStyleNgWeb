@@ -22,10 +22,10 @@ pipeline{
                 }
             }
         }
-		stage('test'){
+		stage('Fetching Image Digest to Generate PDF Report'){
 			steps{
 				script{
-					echo "Image Tag is ${imageTag}"
+					sh "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text"
 				}
 			}
 		}
