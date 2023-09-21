@@ -22,13 +22,6 @@ pipeline{
                 }
             }
         }
-		stage{
-			steps{
-				script{
-					echo "Image tag is ${imageTag}"
-				}
-			}
-		}
 	}
 
 }
