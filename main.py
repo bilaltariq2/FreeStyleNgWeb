@@ -6,10 +6,11 @@ from reportlab.lib import colors
 from reportlab.platypus import PageBreak
 import json
 import time
+from time import sleep
 import bleach
 import textwrap
 
-
+sleep(5)
 # Read JSON data from the text file
 with open("scanData.txt", "r", encoding="utf-8") as readScanTextFile:
     scannedData = readScanTextFile.read()
