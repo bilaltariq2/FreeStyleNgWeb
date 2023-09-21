@@ -34,5 +34,13 @@ pipeline{
 				}
 			}
 		}
+		stage('Cleaning Image on Local Server'){
+			steps{
+				script{
+					//sh "docker rmi ${registry}${repoName}:${imageTag}" 
+					sh "rm scanData.txt"
+				}
+			}
+		}
 	}
 }
