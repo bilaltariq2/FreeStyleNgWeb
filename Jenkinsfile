@@ -45,7 +45,6 @@ pipeline{
 					imageDigest = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text", returnStdout: true).trim()
 					sh "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest} >> scanData.txt"
 					sh "python3 main.py"
-					sh "rm scanData.txt"
 					sh "bash email.sh"
 				}
 			}
@@ -69,6 +68,7 @@ pipeline{
 			steps{
 				script{
 					sh "docker rmi ${registry}${repoName}:${imageTag}" 
+					sh "rm scanData.txt"
 				}
 			}
 		}
