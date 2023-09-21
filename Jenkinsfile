@@ -4,7 +4,7 @@ pipeline{
 		registry="055638961298.dkr.ecr.us-east-1.amazonaws.com/"
 		repoName="rashid/test"
 		dockerImage = ''
-		imageTag = ''
+		branchName = ''
 	}
 
 	stages{
@@ -23,9 +23,8 @@ pipeline{
 		stage('Building Docker Image'){
 			steps{
 				script{
-					def branchName = env.GIT_BRANCH.split('/')[1]
-					imageTag = "${branchName}-${BUILD_NUMBER}"
-					dockerImage = docker.build registry ${imageTag}
+					branchName = env.GIT_BRANCH.split('/')[1]
+					dockerImage = docker.build registry +"${repoName}:${branchName}-${BUILD_NUMBER}"
 				}
 			}
 		}
@@ -42,7 +41,7 @@ pipeline{
 			steps{
 				script{
 					node{
-						def imageName = "${registry}${repoName}${imageTag}"
+						def imageName = "${registry}${repoName}:${branchName}-${BUILD_NUMBER}"
 						sshagent(['new_sshkey']) { 
 							sh """
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
@@ -56,7 +55,7 @@ pipeline{
 		stage('Cleaning Image on Local Server'){
 			steps{
 				script{
-					sh "docker rmi ${registry}${repoName}${imageTag}" 
+					sh "docker rmi ${registry}${repoName}:${branchName}-${BUILD_NUMBER}" 
 				}
 			}
 		}
