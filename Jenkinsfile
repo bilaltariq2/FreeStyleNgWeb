@@ -25,7 +25,7 @@ pipeline{
 				script{
 					def branchName = env.GIT_BRANCH.split('/')[1]
 					imageTag = "${branchName}-${BUILD_NUMBER}"
-					dockerImage = docker.build registry +"${repoName}${imageTag}"
+					dockerImage = docker.build registry +"${repoName}:${imageTag}"
 				}
 			}
 		}
@@ -42,7 +42,7 @@ pipeline{
 			steps{
 				script{
 					node{
-						def imageName = "${registry}${repoName}:${branchName}-${BUILD_NUMBER}"
+						def imageName = "${registry}${repoName}:${imageTag}"
 						sshagent(['new_sshkey']) { 
 							sh """
 							ssh -o StrictHostKeyChecking=no -l ${remoteServerName} ${remoteServerIP} \
@@ -56,7 +56,7 @@ pipeline{
 		stage('Cleaning Image on Local Server'){
 			steps{
 				script{
-					sh "docker rmi ${registry}${repoName}:${branchName}-${BUILD_NUMBER}" 
+					sh "docker rmi ${registry}${repoName}:${imageTag}" 
 				}
 			}
 		}
