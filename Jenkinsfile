@@ -30,7 +30,7 @@ pipeline{
 					//scannedData = sh(script: "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest}", returnStdout: true).trim()
 					sh "aws ecr describe-image-scan-findings --repository-name ${repoName} --image-id imageDigest=${imageDigest} >> scanData.txt"
 					sh "python3 main.py"
-					sh "email.sh"
+					sh "./email.sh"
 				}
 			}
 		}
