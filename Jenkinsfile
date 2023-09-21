@@ -16,37 +16,37 @@ pipeline{
                         error("Aborting the new build due to No Build Message.")
                     }else{
                         echo"Starting the build and other stages..."    
-						//def branchName = env.GIT_BRANCH.split('/')[1]
-						//imageTag = "${branchName}-141" 
+						def branchName = env.GIT_BRANCH.split('/')[1]
+						imageTag = "${branchName}-143" 
                     }
                 }
             }
         }
-		stage('Building Docker Image'){
-			steps{
-				script{
-					def branchName = env.GIT_BRANCH.split('/')[1]
-					imageTag = "${branchName}-${BUILD_NUMBER}"
-					dockerImage = docker.build registry +"${repoName}:${imageTag}"
-				}
-			}
-		}
-		stage('Configure Amazon AWS CLI & Image push to ECR'){
-			steps{
-				script{
-					docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
-                        dockerImage.push()
-                    }
-				}
-			}
-		}
-		// stage{
+		// stage('Building Docker Image'){
 		// 	steps{
 		// 		script{
-		// 			echo "Image tag is ${imageTag}"
+		// 			def branchName = env.GIT_BRANCH.split('/')[1]
+		// 			imageTag = "${branchName}-${BUILD_NUMBER}"
+		// 			dockerImage = docker.build registry +"${repoName}:${imageTag}"
 		// 		}
 		// 	}
 		// }
+		// stage('Configure Amazon AWS CLI & Image push to ECR'){
+		// 	steps{
+		// 		script{
+		// 			docker.withRegistry('https://055638961298.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:aws_credentials') {
+        //                 dockerImage.push()
+        //             }
+		// 		}
+		// 	}
+		// }
+		stage{
+			steps{
+				script{
+					echo "Image tag is ${imageTag}"
+				}
+			}
+		}
 		// stage('SSH to remote server and New Deployment'){
 		// 	steps{
 		// 		script{
