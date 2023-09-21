@@ -22,6 +22,12 @@ pipeline{
                 }
             }
         }
+		stage('test'){
+			steps{
+				script{
+					echo "Image Tag is ${imageTag}"
+				}
+			}
+		}
 	}
-
 }
