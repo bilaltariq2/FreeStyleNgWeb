@@ -5,6 +5,7 @@ pipeline{
 		repoName="rashid/test"
 		dockerImage = ''
 		imageTag = ''
+		imageDigest = ''
 	}
 
 	stages{
@@ -25,7 +26,9 @@ pipeline{
 		stage('Fetching Image Digest to Generate PDF Report'){
 			steps{
 				script{
-					sh "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text"
+					imageDigest = sh(script: "aws ecr describe-images --repository-name ${repoName} --image-ids imageTag=${imageTag} --query 'imageDetails[0].imageDigest' --output text", returnStdout: true).trim()
+
+					echo"Image Digest is ${imageDigest}"
 				}
 			}
 		}
