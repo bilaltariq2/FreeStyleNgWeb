@@ -25,7 +25,7 @@ pipeline{
 				script{
 					def branchName = env.GIT_BRANCH.split('/')[1]
 					imageTag = "${branchName}-${BUILD_NUMBER}"
-					dockerImage = docker.build registry +${imageTag}
+					dockerImage = docker.build registry ${imageTag}
 				}
 			}
 		}
